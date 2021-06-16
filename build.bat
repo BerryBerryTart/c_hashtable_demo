@@ -1,0 +1,1 @@
+gcc -s -O0 -g3 -o hash.exe hashtable.c
