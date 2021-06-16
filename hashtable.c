@@ -118,13 +118,13 @@ void insertArray(Array *a, char *element) {
         printf("Collision Detected With Index %d\n", index);
         //check if duplicate value
         if ( strncmp( element, a->array[index], sizeof(char) * STR_LIMIT ) == 0 ){
-            printf("Duplicate Value Found: %s\n\n", element);
+            printf("Duplicate Value Found: '%s'\n\n", element);
         } else { // perform collision insertion
             strcpy(tmp, element);
             collisionResolve(a, tmp, index);
         }
     } else { // normal insert
-        printf("Inserting %s Into Index: %d\n\n", element, index);
+        printf("Inserting '%s' Into Index: %d\n\n", element, index);
         strcpy(tmp, element);
         a->array[index] = tmp;
         a->used++;
@@ -148,7 +148,12 @@ void printArray(Array *a) {
     printf("Load Percent: %.2f%%\n", load_limit);
     int end = a->size, i = 0;
     for (i = 0; i < end; i++){
-        printf("Index: %d  Value: %s\n", i, a->array[i]);
+        if (a->array[i] == NULL){
+            printf("Index: %d  Value: \n", i);
+        } else {
+            printf("Index: %d  Value: '%s'\n", i, a->array[i]);
+        }
+
     }
     printf("\n");
 }
@@ -160,14 +165,14 @@ void find(Array *a, char *target){
     if (a->array[index] != NULL){
         //check if value is equal to target because collisions do happen
         if ( strcmp( a->array[index], target ) == 0){
-            printf("Found %s At Index %d\n\n", target, index);
+            printf("Found '%s' At Index %d\n\n", target, index);
             return;
         }
     }
     // O(n) worst case scenario search
     for (i = 0; i < a->size; i++){
         if ( a->array[i] != NULL && strcmp( a->array[i], target ) == 0 ){
-            printf("Found %s At Index %d\n\n", target, i);
+            printf("Found '%s' At Index %d\n\n", target, i);
             return;
         }
     }
@@ -183,7 +188,7 @@ void delete(Array *a, char *target){
         if ( strcmp( a->array[index], target ) == 0){
             a->array[index] = NULL;
             a->used--;
-            printf("Removed %s At Index %d\n\n", target, index);
+            printf("Removed '%s' At Index %d\n\n", target, index);
             return;
         }
     }
@@ -192,7 +197,7 @@ void delete(Array *a, char *target){
         if ( a->array[i] != NULL && strcmp( a->array[i], target ) == 0 ){
             a->array[i] = NULL;
             a->used--;
-            printf("Removed %s At Index %d\n\n", target, i);
+            printf("Removed '%s' At Index %d\n\n", target, i);
             return;
         }
     }
@@ -201,7 +206,7 @@ void delete(Array *a, char *target){
 
 bool startsWith(const char *pre, const char *str){
     size_t lenpre = strlen(pre), lenstr = strlen(str);
-    return lenstr < lenpre ? 0 : memcmp(pre, str, lenpre) == 0;
+    return lenstr < lenpre ? false : memcmp(pre, str, lenpre) == 0;
 }
 
 int main(){
