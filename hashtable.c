@@ -111,13 +111,13 @@ void insertArray(Array *a, char *element) {
     int index = hash % a->size;
     printf("Hash: %" PRIu64 "\n", hash);
     //allocate space for temp value
-    char* tmp = malloc( sizeof(char) * STR_LIMIT );
+    char* tmp = malloc( sizeof(char) * STR_LIMIT + 1);
 
     //check if collision
     if (a->array[index] != NULL){
         printf("Collision Detected With Index %d\n", index);
         //check if duplicate value
-        if ( strncmp( element, a->array[index], sizeof(char) * STR_LIMIT ) == 0 ){
+        if ( strncmp( element, a->array[index], sizeof(char) * STR_LIMIT + 1 ) == 0 ){
             printf("Duplicate Value Found: '%s'\n\n", element);
         } else { // perform collision insertion
             strcpy(tmp, element);
@@ -125,7 +125,7 @@ void insertArray(Array *a, char *element) {
         }
     } else { // normal insert
         printf("Inserting '%s' Into Index: %d\n\n", element, index);
-        strcpy(tmp, element);
+        strcpy( tmp, element );
         a->array[index] = tmp;
         a->used++;
     }
